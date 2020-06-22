@@ -49,46 +49,44 @@ public class Percolation {
         if (!isValid(row, col))
             throw new IllegalArgumentException();
 
-        // int top = findIndex(row - 1, col);
+        int top = findIndex(row - 1, col);
         int bottom = findIndex(row + 1, col);
         int right = findIndex(row, col + 1);
         int left = findIndex(row, col - 1);
 
-        if (row == 1) {// top
+        if (row == 1) { // top
             if (col == 1)// top-left
                 return new int[] { right, bottom };
             if (col == gridSize)// top-right
                 return new int[] { left, bottom };
             return new int[] { right, left, bottom };
         }
-        if (row == gridSize) {// bottom
+        if (row == gridSize) { // bottom
             if (col == 1)// bottom-left
-                return new int[] { /* top, */ right };
+                return new int[] { top, right };
             if (col == gridSize)// bottom-right
-                return new int[] { /* top, */ left };
-            return new int[] { right, left/* , top */ };
+                return new int[] { top, left };
+            return new int[] { right, left, top };
         }
         if (col == 1)// left
-            return new int[] { right, /* top, */ bottom };
+            return new int[] { right, top, bottom };
         if (col == gridSize)// right
-            return new int[] { left, /* top, */ bottom };
+            return new int[] { left, top, bottom };
 
         // Default (4)
-        return new int[] { right, left, /* top, */ bottom };
+        return new int[] { right, left, top, bottom };
     }
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (isFull(row, col)) {
-            gridStatus[findIndex(row, col)] = OPEN;
-            if (openSitesCount == 0)
-                openSitesCount++;
-            int[] adj = findAdjacentIndex(row, col);
-            for (int i = 0; i < adj.length; i++) {
-                if (gridStatus[adj[i]] == OPEN) {
-                    grid.union(findIndex(row, col), adj[i]);
-                    openSitesCount++;
-                }
+        if (isOpen(row, col))
+            return;
+        gridStatus[findIndex(row, col)] = OPEN;
+        openSitesCount++;
+        int[] adj = findAdjacentIndex(row, col);
+        for (int i = 0; i < adj.length; i++) {
+            if (gridStatus[adj[i]] == OPEN) {
+                grid.union(findIndex(row, col), adj[i]);
             }
         }
     }
@@ -106,9 +104,11 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         if (!isValid(row, col))
             throw new IllegalArgumentException();
-        if (gridStatus[findIndex(row, col)] == BLOCKED)
-            return true;
-        return false;
+        if (!isOpen(row, col))
+            return false;
+        int virtualTop = gridSize * gridSize;
+        int current = findIndex(row, col);
+        return grid.find(virtualTop) == grid.find(current);
     }
 
     // returns the number of open sites
@@ -149,11 +149,15 @@ public class Percolation {
         p.print();
         StdOut.println(p.percolates() ? "YES" : "NO");
         StdOut.println(p.numberOfOpenSites());
+        StdOut.println(p.isFull(3, 2) ? "Y" : "N");
+        StdOut.println(p.isFull(3, 3) ? "Y" : "N");
         p.open(5, 2);
         p.open(2, 1);
+        p.open(4, 4);
         p.print();
         StdOut.println(p.percolates() ? "YES" : "NO");
         StdOut.println(p.numberOfOpenSites());
+        StdOut.println(p.isFull(4, 4) ? "Y" : "N");
 
     }
 }
