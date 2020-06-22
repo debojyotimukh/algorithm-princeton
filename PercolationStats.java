@@ -16,13 +16,13 @@ public class PercolationStats {
         T = trials;
         thresholds = new double[T];
 
-        StdRandom.setSeed(30104+32*N-10*T);
+        StdRandom.setSeed(40 * N + 10 * T - 130);
         for (int i = 0; i < T; i++) {
             Percolation p = new Percolation(N);
             for (int j = 0; j < N * N; j++) {
                 if (p.percolates())
                     break;
-                p.open(StdRandom.uniform(1,N+1) , StdRandom.uniform(1,N+1));
+                p.open(StdRandom.uniform(1, N + 1), StdRandom.uniform(1, N + 1));
 
             }
             // StdOut.println(p.numberOfOpenSites());
