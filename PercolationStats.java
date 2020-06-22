@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private static final double CONFIDENCE_95=1.96;
+    private static final double CONFIDENCE_95 = 1.96;
     private final double[] thresholds;
 
     // perform independent trials on an n-by-n grid
@@ -15,16 +15,14 @@ public class PercolationStats {
 
         for (int i = 0; i < trials; i++) {
             Percolation p = new Percolation(n);
-            for (int j = 0; j < n * n; j++) {
-                if (p.percolates())
-                    break;
+            while (!p.percolates()) {
                 p.open(StdRandom.uniform(1, n + 1), StdRandom.uniform(1, n + 1));
 
             }
-            // StdOut.println(p.numberOfOpenSites());
-            double openSites = (double)(p.numberOfOpenSites());
+
+            double openSites = (double) (p.numberOfOpenSites());
             thresholds[i] = openSites / Math.pow(n, 2);
-            // StdOut.println(thresholds[i]);
+
         }
     }
 
