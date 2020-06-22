@@ -2,11 +2,11 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Percolation {
-    private static int BLOCKED = 0;
-    private static int OPEN = 1;
+    private static boolean BLOCKED = false;
+    private static boolean OPEN = true;
     private static int N;
     private WeightedQuickUnionUF grid;
-    private int[] gridStatus;
+    private boolean[] gridStatus;
     private int openSitesCount = 0;
 
     // creates n-by-n grid, with all sites initially blocked
@@ -15,10 +15,10 @@ public class Percolation {
             throw new IllegalArgumentException();
         else {
             N = n;
-            grid = new WeightedQuickUnionUF(n * n + 2);
-            gridStatus = new int[n * n];
-            for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
+            grid = new WeightedQuickUnionUF(N * N + 2);
+            gridStatus = new boolean[N * N];
+            for (int i = 0; i < N; i++)
+                for (int j = 0; j < N; j++)
                     gridStatus[N * i + j] = BLOCKED;
 
             int virtualTop = N * N;
@@ -46,42 +46,40 @@ public class Percolation {
 
     // find indexes adjacent to an open site
     private int[] findAdjacentIndex(int row, int col) {
-        // TODO: merge if statements
         if (!isValid(row, col))
             throw new IllegalArgumentException();
 
-        //int top = findIndex(row - 1, col);
+        // int top = findIndex(row - 1, col);
         int bottom = findIndex(row + 1, col);
         int right = findIndex(row, col + 1);
         int left = findIndex(row, col - 1);
 
-        // Corner case (2)
-        if (row == 1 && col == 1)// top-left
-            return new int[] { right, bottom };
-        if (row == 1 && col == N)// top-right
-            return new int[] { left, bottom };
-        if (row == N && col == 1)// bottom-left
-            return new int[] { /*top,*/ right };
-        if (row == N && col == N)// bottom-right
-            return new int[] { /*top,*/ left };
-
-        // Side cases (3)
-        if (row == 1)// top
+        if (row == 1) {// top
+            if (col == 1)// top-left
+                return new int[] { right, bottom };
+            if (col == N)// top-right
+                return new int[] { left, bottom };
             return new int[] { right, left, bottom };
-        if (row == N)// bottom
-    return new int[] { right, left/*, top*/ };
+        }
+        if (row == N) {// bottom
+            if (col == 1)// bottom-left
+                return new int[] { /* top, */ right };
+            if (col == N)// bottom-right
+                return new int[] { /* top, */ left };
+            return new int[] { right, left/* , top */ };
+        }
         if (col == 1)// left
-            return new int[] { right, /*top,*/ bottom };
+            return new int[] { right, /* top, */ bottom };
         if (col == N)// right
-            return new int[] { left, /*top,*/ bottom };
+            return new int[] { left, /* top, */ bottom };
 
         // Default (4)
-        return new int[] { right, left, /*top,*/ bottom };
+        return new int[] { right, left, /* top, */ bottom };
     }
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (!isOpen(row, col)) {
+        if (isFull(row, col)) {
             gridStatus[findIndex(row, col)] = OPEN;
             if (openSitesCount == 0)
                 openSitesCount++;
@@ -130,23 +128,28 @@ public class Percolation {
         for (int i = 0; i < N; i++) {
             StdOut.println(" ");
             for (int j = 0; j < N; j++)
-                StdOut.print(gridStatus[N * i + j] + " ");
+                StdOut.print(gridStatus[N * i + j] ? "1 " : "0 ");
         }
         StdOut.println("");
     }
 
     // test client (optional)
     public static void main(String[] args) {
-        Percolation p = new Percolation(2);
-        /*
-         * p.open(1, 1); p.open(2, 2); p.open(1, 2); p.open(1, 3); //p.open(1, 4);
-         * //p.open(3, 2); p.open(4, 2);
-         */
+        Percolation p = new Percolation(5);
+
+        p.open(1, 1);
+        p.open(2, 2);
+        p.open(1, 2);
+        p.open(1, 3);
+        p.open(1, 4);
+        p.open(3, 2);
+        p.open(4, 2);
+
         p.open(1, 1);
         p.print();
         StdOut.println(p.percolates() ? "YES" : "NO");
         StdOut.println(p.numberOfOpenSites());
-        p.open(1, 2);
+        p.open(5, 2);
         p.open(2, 1);
         p.print();
         StdOut.println(p.percolates() ? "YES" : "NO");

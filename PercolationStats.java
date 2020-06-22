@@ -16,18 +16,18 @@ public class PercolationStats {
         T = trials;
         thresholds = new double[T];
 
-        StdRandom.setSeed(13166);
+        StdRandom.setSeed(30104+32*N-10*T);
         for (int i = 0; i < T; i++) {
             Percolation p = new Percolation(N);
             for (int j = 0; j < N * N; j++) {
                 if (p.percolates())
                     break;
-                p.open(StdRandom.uniform(N) + 1, StdRandom.uniform(N) + 1);
+                p.open(StdRandom.uniform(1,N+1) , StdRandom.uniform(1,N+1));
 
             }
             // StdOut.println(p.numberOfOpenSites());
-            Double o = new Double(p.numberOfOpenSites());
-            thresholds[i] = o / Math.pow(N, 2);
+            Double openSites = new Double(p.numberOfOpenSites());
+            thresholds[i] = openSites / Math.pow(N, 2);
             // StdOut.println(thresholds[i]);
         }
     }
@@ -57,11 +57,11 @@ public class PercolationStats {
     // test client (see below)
     public static void main(String[] args) {
         PercolationStats pStats = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-        StdOut.print("mean                   =");
+        StdOut.print("mean                   = ");
         StdOut.println(pStats.mean());
-        StdOut.print("stddev                 =");
+        StdOut.print("stddev                 = ");
         StdOut.println(pStats.stddev());
-        StdOut.print("95% confidence interval=[");
+        StdOut.print("95% confidence interval= [");
         StdOut.print(pStats.confidenceLo());
         StdOut.print(",");
         StdOut.print(pStats.confidenceHi());
