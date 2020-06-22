@@ -2,9 +2,9 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Percolation {
-    private static boolean BLOCKED = false;
-    private static boolean OPEN = true;
-    private static int N;
+    private static final boolean BLOCKED = false;
+    private static final boolean OPEN = true;
+    private int gridSize;
     private WeightedQuickUnionUF grid;
     private boolean[] gridStatus;
     private int openSitesCount = 0;
@@ -14,20 +14,20 @@ public class Percolation {
         if (n <= 0)
             throw new IllegalArgumentException();
         else {
-            N = n;
-            grid = new WeightedQuickUnionUF(N * N + 2);
-            gridStatus = new boolean[N * N];
-            for (int i = 0; i < N; i++)
-                for (int j = 0; j < N; j++)
-                    gridStatus[N * i + j] = BLOCKED;
+            gridSize = n;
+            grid = new WeightedQuickUnionUF(gridSize * gridSize + 2);
+            gridStatus = new boolean[gridSize * gridSize];
+            for (int i = 0; i < gridSize; i++)
+                for (int j = 0; j < gridSize; j++)
+                    gridStatus[gridSize * i + j] = BLOCKED;
 
-            int virtualTop = N * N;
-            int virtualBottom = N * N + 1;
-            for (int i = 0; i < N; i++) {
+            int virtualTop = gridSize * gridSize;
+            int virtualBottom = gridSize * gridSize + 1;
+            for (int i = 0; i < gridSize; i++) {
                 grid.union(virtualTop, findIndex(1, i + 1));
             }
-            for (int i = 0; i < N; i++) {
-                grid.union(virtualBottom, findIndex(N, i + 1));
+            for (int i = 0; i < gridSize; i++) {
+                grid.union(virtualBottom, findIndex(gridSize, i + 1));
             }
         }
 
@@ -35,11 +35,11 @@ public class Percolation {
 
     // find 1D index from row,col
     private int findIndex(int row, int col) {
-        return (row - 1) * N + (col - 1);
+        return (row - 1) * gridSize + (col - 1);
     }
 
     private boolean isValid(int row, int col) {
-        if (row < 1 || col < 1 || row > N || col > N)
+        if (row < 1 || col < 1 || row > gridSize || col > gridSize)
             return false;
         return true;
     }
@@ -57,20 +57,20 @@ public class Percolation {
         if (row == 1) {// top
             if (col == 1)// top-left
                 return new int[] { right, bottom };
-            if (col == N)// top-right
+            if (col == gridSize)// top-right
                 return new int[] { left, bottom };
             return new int[] { right, left, bottom };
         }
-        if (row == N) {// bottom
+        if (row == gridSize) {// bottom
             if (col == 1)// bottom-left
                 return new int[] { /* top, */ right };
-            if (col == N)// bottom-right
+            if (col == gridSize)// bottom-right
                 return new int[] { /* top, */ left };
             return new int[] { right, left/* , top */ };
         }
         if (col == 1)// left
             return new int[] { right, /* top, */ bottom };
-        if (col == N)// right
+        if (col == gridSize)// right
             return new int[] { left, /* top, */ bottom };
 
         // Default (4)
@@ -118,17 +118,17 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        int virtualTop = N * N;
-        int virtualBottom = N * N + 1;
+        int virtualTop = gridSize * gridSize;
+        int virtualBottom = gridSize * gridSize + 1;
         return grid.find(virtualBottom) == grid.find(virtualTop);
     }
 
     // print the grid
     private void print() {
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < gridSize; i++) {
             StdOut.println(" ");
-            for (int j = 0; j < N; j++)
-                StdOut.print(gridStatus[N * i + j] ? "1 " : "0 ");
+            for (int j = 0; j < gridSize; j++)
+                StdOut.print(gridStatus[gridSize * i + j] ? "1 " : "0 ");
         }
         StdOut.println("");
     }

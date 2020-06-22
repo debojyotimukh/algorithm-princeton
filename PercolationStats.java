@@ -3,31 +3,27 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private static int N;
-    private static int T;
-    private double[] thresholds;
+    private static final double CONFIDENCE_95=1.96;
+    private final double[] thresholds;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
         if (n <= 0 || trials <= 0)
             throw new IllegalArgumentException();
 
-        N = n;
-        T = trials;
-        thresholds = new double[T];
+        thresholds = new double[trials];
 
-        StdRandom.setSeed(40 * N + 10 * T - 130);
-        for (int i = 0; i < T; i++) {
-            Percolation p = new Percolation(N);
-            for (int j = 0; j < N * N; j++) {
+        for (int i = 0; i < trials; i++) {
+            Percolation p = new Percolation(n);
+            for (int j = 0; j < n * n; j++) {
                 if (p.percolates())
                     break;
-                p.open(StdRandom.uniform(1, N + 1), StdRandom.uniform(1, N + 1));
+                p.open(StdRandom.uniform(1, n + 1), StdRandom.uniform(1, n + 1));
 
             }
             // StdOut.println(p.numberOfOpenSites());
-            Double openSites = new Double(p.numberOfOpenSites());
-            thresholds[i] = openSites / Math.pow(N, 2);
+            double openSites = (double)(p.numberOfOpenSites());
+            thresholds[i] = openSites / Math.pow(n, 2);
             // StdOut.println(thresholds[i]);
         }
     }
@@ -45,13 +41,13 @@ public class PercolationStats {
     // low endpoint of 95% confidence interval
     public double confidenceLo() {
         double s = StdStats.stddev(thresholds);
-        return mean() - 1.96 * s / Math.sqrt(T);
+        return mean() - CONFIDENCE_95 * s / Math.sqrt(thresholds.length);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
         double s = StdStats.stddev(thresholds);
-        return mean() + 1.96 * s / Math.sqrt(T);
+        return mean() + CONFIDENCE_95 * s / Math.sqrt(thresholds.length);
     }
 
     // test client (see below)
