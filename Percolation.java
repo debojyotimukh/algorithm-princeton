@@ -13,14 +13,15 @@ public class Percolation {
     public Percolation(int n) {
         if (n <= 0)
             throw new IllegalArgumentException();
-        else {
-            gridSize = n;
-            grid = new WeightedQuickUnionUF(gridSize * gridSize + 2);
-            gridStatus = new boolean[gridSize * gridSize];
-            for (int i = 0; i < gridSize; i++)
-                for (int j = 0; j < gridSize; j++)
-                    gridStatus[gridSize * i + j] = BLOCKED;
 
+        gridSize = n;
+        grid = new WeightedQuickUnionUF(gridSize * gridSize + 2);
+        gridStatus = new boolean[gridSize * gridSize];
+        for (int i = 0; i < gridSize; i++)
+            for (int j = 0; j < gridSize; j++)
+                gridStatus[gridSize * i + j] = BLOCKED;
+
+        if (gridSize != 1) {
             int virtualTop = gridSize * gridSize;
             int virtualBottom = gridSize * gridSize + 1;
             for (int i = 0; i < gridSize; i++) {
@@ -48,6 +49,8 @@ public class Percolation {
     private int[] findAdjacentIndex(int row, int col) {
         if (!isValid(row, col))
             throw new IllegalArgumentException();
+        if (gridSize == 1)
+            return new int[] {};
 
         int top = findIndex(row - 1, col);
         int bottom = findIndex(row + 1, col);
@@ -102,10 +105,13 @@ public class Percolation {
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+        // TODO: fix backwash problem
         if (!isValid(row, col))
             throw new IllegalArgumentException();
         if (!isOpen(row, col))
             return false;
+        if (gridSize == 1)
+            return true;
         int virtualTop = gridSize * gridSize;
         int current = findIndex(row, col);
         return grid.find(virtualTop) == grid.find(current);
@@ -118,6 +124,8 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
+        if (gridSize == 1 && isOpen(1, 1))
+            return true;
         int virtualTop = gridSize * gridSize;
         int virtualBottom = gridSize * gridSize + 1;
         return grid.find(virtualBottom) == grid.find(virtualTop);
@@ -159,5 +167,32 @@ public class Percolation {
         StdOut.println(p.numberOfOpenSites());
         StdOut.println(p.isFull(4, 4) ? "Y" : "N");
 
+        p = new Percolation(1);
+        p.print();
+        StdOut.println(p.percolates() ? "YES" : "NO");
+        StdOut.println(p.numberOfOpenSites());
+        StdOut.println(p.isFull(1, 1) ? "Y" : "N");
+        p.open(1, 1);
+        p.print();
+        StdOut.println(p.percolates() ? "YES" : "NO");
+        StdOut.println(p.numberOfOpenSites());
+        StdOut.println(p.isFull(1, 1) ? "Y" : "N");
+
+        p = new Percolation(2);
+        p.print();
+        StdOut.println(p.percolates() ? "YES" : "NO");
+        StdOut.println(p.numberOfOpenSites());
+        StdOut.println(p.isFull(1, 1) ? "Y" : "N");
+        p.open(1, 1);
+        p.open(2, 2);
+        p.print();
+        StdOut.println(p.percolates() ? "YES" : "NO");
+        StdOut.println(p.numberOfOpenSites());
+        StdOut.println(p.isFull(1, 1) ? "Y" : "N");
+        p.open(1, 2);
+        p.print();
+        StdOut.println(p.percolates() ? "YES" : "NO");
+        StdOut.println(p.numberOfOpenSites());
+        StdOut.println(p.isFull(1, 1) ? "Y" : "N");
     }
 }
