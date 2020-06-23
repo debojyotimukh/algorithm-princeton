@@ -34,18 +34,19 @@ public class Percolation {
 
     }
 
-    // find 1D index from row,col
+    // find 1D 0-based index from row,col
     private int findIndex(int row, int col) {
         return (row - 1) * gridSize + (col - 1);
     }
 
+    // is the row,col inside the specified grid ?
     private boolean isValid(int row, int col) {
         if (row < 1 || col < 1 || row > gridSize || col > gridSize)
             return false;
         return true;
     }
 
-    // find indexes adjacent to an open site
+    // find 0-based indexes adjacent to an open site
     private int[] findAdjacentIndex(int row, int col) {
         if (!isValid(row, col))
             throw new IllegalArgumentException();
