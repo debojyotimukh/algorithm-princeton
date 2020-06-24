@@ -7,22 +7,21 @@ public class PercolationStats {
     private final double[] thresholds;
 
     // perform independent trials on an n-by-n grid
-    public PercolationStats(int n, int trials) {
+    public PercolationStats(final int n, final int trials) {
         if (n <= 0 || trials <= 0)
             throw new IllegalArgumentException();
 
         thresholds = new double[trials];
 
         for (int i = 0; i < trials; i++) {
-            Percolation p = new Percolation(n);
+            final Percolation p = new Percolation(n);
             while (!p.percolates()) {
                 p.open(StdRandom.uniform(1, n + 1), StdRandom.uniform(1, n + 1));
 
             }
 
-            double openSites = (double) (p.numberOfOpenSites());
+            final double openSites = (double) (p.numberOfOpenSites());
             thresholds[i] = openSites / Math.pow(n, 2);
-
         }
     }
 
@@ -49,8 +48,8 @@ public class PercolationStats {
     }
 
     // test client (see below)
-    public static void main(String[] args) {
-        PercolationStats pStats = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+    public static void main(final String[] args) {
+        final PercolationStats pStats = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         StdOut.print("mean                   = ");
         StdOut.println(pStats.mean());
         StdOut.print("stddev                 = ");
