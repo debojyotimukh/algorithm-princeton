@@ -15,8 +15,8 @@ public class Deque<Item> implements Iterable<Item> {
     public Deque() {
         sz = 4;
         dq = (Item[]) new Object[sz];
-        front = 0;
-        rear = -1;
+        front = -1;
+        rear = 0;
         count = 0;
     }
 
@@ -30,7 +30,7 @@ public class Deque<Item> implements Iterable<Item> {
         boolean rearReached = false;
 
         while (!rearReached) {
-            rearReached = oldIndex % dq.length == rear;
+            rearReached = oldIndex % (dq.length + 1) == rear;
             aux[newIndex] = dq[oldIndex % dq.length];
 
             newIndex++;
@@ -44,14 +44,12 @@ public class Deque<Item> implements Iterable<Item> {
 
     // is deque full?
     private boolean isFull() {
-        return dq.length == sz;
+        return ((front == 0 && rear == sz - 1) || front == rear + 1);
     }
 
     // is the deque empty?
     public boolean isEmpty() {
-        if (front > rear)
-            return true;
-        return false;
+        return front == -1;
     }
 
     // return the number of items on the deque
@@ -61,16 +59,19 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the front
     public void addFirst(final Item item) {
-        //TODO: not working for more than one
         if (item == null)
             throw new IllegalArgumentException();
-        //if (isFull())
-            //resize();
-        if (isEmpty())
-            dq[++rear] = item;
-        else if (front != 0)
-            dq[--front] = item;
+        if (isFull())
+            resize();
+        if (isEmpty()) {
+            front = 0;
+            rear = 0;
+        } else if (front == 0)
+            front = sz - 1;
+        else
+            front--;
 
+        dq[front] = item;
         count++;
     }
 
@@ -78,9 +79,16 @@ public class Deque<Item> implements Iterable<Item> {
     public void addLast(final Item item) {
         if (item == null)
             throw new IllegalArgumentException();
-        //if (isFull())
-            //resize();
-        rear = (rear + 1) % sz;
+        if (isFull())
+            resize();
+        if (isEmpty()) {
+            front = 0;
+            rear = 0;
+        } // else if (rear == sz -1)
+          // rear = 0;
+        else
+            rear++;
+
         dq[rear] = item;
         count++;
 
@@ -90,29 +98,37 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeFirst() {
         if (isEmpty())
             throw new NoSuchElementException();
-        final Item d = dq[front];
-        front = (front + 1) % sz;
+        Item d = dq[front];
+        if (front == rear) {
+            front = -1;
+            rear = 0;
+        } else {
+            if (front == sz - 1)
+                front = 0;
+            else
+                front++;
+        }
         count--;
         return d;
     }
 
     // remove and return the item from the back
     public Item removeLast() {
+        //TODO: removing one more element
         if (isEmpty())
             throw new NoSuchElementException();
-        final Item d = dq[rear];
-        rear--;
-        count--;
-        if (isEmpty()) {
-            front = 0;
-            rear = -1;
+        Item d = dq[rear];
+        if (front == rear) {
+            front = -1;
+            rear = 0;
+        } else {
+            if (rear == 0)
+                rear = sz - 1;
+            else
+                rear--;
         }
+        count--;
         return d;
-    }
-
-    private void display(){
-        for(int i=front;i<=rear;i++)
-            StdOut.println(dq[i]);
     }
 
     // return an iterator over items in order from front to back
@@ -121,7 +137,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     private class CircularArrayIterator implements Iterator<Item> {
-        int f = 0;
+        int f = -1;
         int r = 0;
 
         CircularArrayIterator(final int front, final int rear) {
@@ -131,12 +147,16 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return f > r;
+            return f % (dq.length + 1) == r;
         }
 
         @Override
         public Item next() {
-            return dq[f++];
+            Item d = dq[f % dq.length];
+            if (d == null)
+                throw new NoSuchElementException();
+            ++f;
+            return d;
         }
 
         @Override
@@ -150,18 +170,37 @@ public class Deque<Item> implements Iterable<Item> {
         final Deque<Integer> q = new Deque<>();
 
         q.addFirst(12);
+        q.removeLast();
         q.addFirst(11);
+        q.removeFirst();
+
         q.addFirst(8);
         q.addLast(45);
         q.addLast(5);
-        
-        /*final Iterator<Integer> it = q.iterator();
+        q.addFirst(8);
+        q.addFirst(1);
+        q.addLast(2);
+        q.addFirst(3);
+        q.addFirst(4);
+        q.addLast(6);
+        q.addFirst(7);
+        q.addLast(9);
+
+        Iterator<Integer> it = q.iterator();
         while (!it.hasNext())
-            StdOut.println(it.next());*/
-        q.display();
+            StdOut.println(it.next());
+
+        StdOut.println("After removing");
+
         q.removeFirst();
         q.removeLast();
-        q.display();
+        q.removeLast();
+        q.removeFirst();
+        q.removeLast();
+
+        it = q.iterator();
+        while (!it.hasNext())
+            StdOut.println(it.next());
 
     }
 
