@@ -24,11 +24,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             aux[i] = q[i];
         q = aux;
     }
-    private void swap(Item a,Item b){
-        Item d=a;
-        a=b;
-        b=d;
+
+    private void swap(Item a, Item b) {
+        Item d = a;
+        a = b;
+        b = d;
     }
+
     // is the randomized queue empty?
     public boolean isEmpty() {
         if (count == 0)
@@ -45,7 +47,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         if (item == null)
             throw new IllegalArgumentException();
-        if(count==sz) resize();
+        if (count == sz)
+            resize();
         q[count++] = item;
     }
 
@@ -53,9 +56,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue() {
         if (isEmpty())
             throw new NoSuchElementException();
-        for(int i=count;i>0;i--){
-            int j=StdRandom.uniform(0, i);
-            swap(q[j],q[i]);
+        for (int i = count; i > 0; i--) {
+            int j = StdRandom.uniform(0, i);
+            swap(q[j], q[i]);
         }
         return q[--count];
     }
@@ -64,7 +67,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item sample() {
         if (isEmpty())
             throw new NoSuchElementException();
-        Item d=q[StdRandom.uniform(count)];
+        Item d = q[StdRandom.uniform(count)];
         return d;
     }
 
@@ -88,7 +91,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
-            Item d=q[i++];
+            Item d = q[i++];
             if (d == null)
                 throw new NoSuchElementException();
             return d;
