@@ -102,31 +102,29 @@ public class Deque<Item> implements Iterable<Item> {
         if (front == rear) {
             front = -1;
             rear = 0;
-        } else {
-            if (front == sz - 1)
-                front = 0;
-            else
-                front++;
-        }
+        } else if (front == sz - 1)
+            front = 0;
+        else
+            front++;
+
         count--;
         return d;
     }
 
     // remove and return the item from the back
     public Item removeLast() {
-        //TODO: removing one more element
+        // TODO: removing one more element
         if (isEmpty())
             throw new NoSuchElementException();
         Item d = dq[rear];
         if (front == rear) {
             front = -1;
             rear = 0;
-        } else {
-            if (rear == 0)
-                rear = sz - 1;
-            else
-                rear--;
-        }
+        } else if (rear == 0)
+            rear = sz - 1;
+        else
+            rear--;
+
         count--;
         return d;
     }
@@ -147,7 +145,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return f % (dq.length + 1) == r;
+            return f % (dq.length + 1) != r;
         }
 
         @Override
@@ -187,7 +185,7 @@ public class Deque<Item> implements Iterable<Item> {
         q.addLast(9);
 
         Iterator<Integer> it = q.iterator();
-        while (!it.hasNext())
+        while (it.hasNext())
             StdOut.println(it.next());
 
         StdOut.println("After removing");
@@ -199,7 +197,7 @@ public class Deque<Item> implements Iterable<Item> {
         q.removeLast();
 
         it = q.iterator();
-        while (!it.hasNext())
+        while (it.hasNext())
             StdOut.println(it.next());
 
     }
