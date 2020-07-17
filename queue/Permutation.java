@@ -7,8 +7,15 @@ public class Permutation {
     public static void main(final String[] args) {
         final int k = Integer.parseInt(args[0]);
         final RandomizedQueue<String> rq = new RandomizedQueue<>();
-        while (!StdIn.isEmpty())
+        // implement reservoir sampling for bonus point
+        int count = 0;
+        while (!StdIn.isEmpty()) {
+            if (count > k)
+                rq.dequeue();
             rq.enqueue(StdIn.readString());
+
+            count++;
+        }
 
         for (int i = 0; i < k; i++)
             StdOut.println(rq.dequeue());

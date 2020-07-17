@@ -19,12 +19,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // resize array
-    private void resize() {
-        sz = q.length * 2;
+    private void resize(final int newSize) {
+        sz = newSize;
         final Item[] aux = (Item[]) new Object[sz];
         for (int i = 0; i < count; i++)
             aux[i] = q[i];
         q = aux;
+    }
+
+    // swap elements q[i], q[j]
+    private void swapElements(final int i, final int j) {
+        final Item temp = q[i];
+        q[i] = q[j];
+        q[j] = temp;
     }
 
     // is the randomized queue empty?
@@ -44,7 +51,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (item == null)
             throw new IllegalArgumentException();
         if (count == sz)
-            resize();
+            resize(q.length * 2);
         q[count++] = item;
     }
 
@@ -52,15 +59,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue() {
         if (isEmpty())
             throw new NoSuchElementException();
+        if (count < sz / 2 - 1)
+            resize(q.length / 2);
         --count;
-        // Fisher-Yates shuffle
-        // TODO: dequeue() should call StdRandom at most once
-        for (int i = count; i > 0; i--) {
-            final int j = StdRandom.uniform(0, i);
-            final Item d = q[j];
-            q[j] = q[i];
-            q[i] = d;
-        }
+
+        swapElements(count, StdRandom.uniform(0, count+1));
         final Item d = q[count];
         q[count] = null;
         return d;
