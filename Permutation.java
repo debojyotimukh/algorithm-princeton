@@ -1,11 +1,11 @@
-package queue;
-
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Permutation {
     public static void main(final String[] args) {
         final int k = Integer.parseInt(args[0]);
+        if (k == 0)
+            return;
         final RandomizedQueue<String> rq = new RandomizedQueue<>();
         // implement reservoir sampling for bonus point
         int count = 0;
