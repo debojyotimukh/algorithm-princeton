@@ -54,7 +54,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
         --count;
         // Fisher-Yates shuffle
-        //TODO: dequeue() should call StdRandom at most once
+        // TODO: dequeue() should call StdRandom at most once
         for (int i = count; i > 0; i--) {
             final int j = StdRandom.uniform(0, i);
             final Item d = q[j];
@@ -87,10 +87,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         ArrayIterator(final int count) {
             current = 0;
             this.count = count;
-            indexArr = new int[count];
-            for (int i = 0; i < count; i++)
-                indexArr[i] = i;
-            StdRandom.shuffle(indexArr);
+            // create a shuffled index array
+            indexArr = StdRandom.permutation(count);
         }
 
         @Override
