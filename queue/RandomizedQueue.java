@@ -60,7 +60,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             q[j] = q[i];
             q[i] = d;
         }
-        return q[count];
+        final Item d = q[count];
+        q[count]=null;
+        return d;
     }
 
     // return a random item (but do not remove it)
@@ -77,24 +79,29 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class ArrayIterator implements Iterator<Item> {
-        int i = 0;
-        int count = 0;
+        int current;
+        int count;
+        int[] indexArr;
 
         ArrayIterator(final int count) {
+            current = 0;
             this.count = count;
+            indexArr = new int[count];
+            for (int i = 0; i < count; i++)
+                indexArr[i] = i;
+            StdRandom.shuffle(indexArr);
         }
 
         @Override
         public boolean hasNext() {
-            return i < count;
+            return current < count;
         }
 
         @Override
         public Item next() {
-            final Item d = q[i++];
-            if (d == null)
+            if (current >= count)
                 throw new NoSuchElementException();
-            return d;
+            return q[indexArr[current++]];
         }
 
         @Override
@@ -123,6 +130,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         final Iterator<Integer> it = rq.iterator();
         while (it.hasNext())
             StdOut.println(it.next());
+
+        // StdOut.println(it.next());
 
         final int n = 5;
         final RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
