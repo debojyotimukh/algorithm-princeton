@@ -1,3 +1,5 @@
+package queue;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -98,6 +100,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (isEmpty())
             throw new NoSuchElementException();
         final Item d = dq[front];
+        dq[front] = null;
         if (front == rear) {
             front = -1;
             rear = 0;
@@ -112,10 +115,10 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the back
     public Item removeLast() {
-        // TODO: removing one more element
         if (isEmpty())
             throw new NoSuchElementException();
         final Item d = dq[rear];
+        dq[rear] = null;
         if (front == rear) {
             front = -1;
             rear = 0;

@@ -1,3 +1,5 @@
+package queue;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -25,12 +27,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         q = aux;
     }
 
-    private void swap(Item a, Item b) {
-        final Item d = a;
-        a = b;
-        b = d;
-    }
-
     // is the randomized queue empty?
     public boolean isEmpty() {
         if (count == 0)
@@ -56,13 +52,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue() {
         if (isEmpty())
             throw new NoSuchElementException();
-
+        --count;
         // Fisher-Yates shuffle
         for (int i = count; i > 0; i--) {
             final int j = StdRandom.uniform(0, i);
-            swap(q[j], q[i]);
+            final Item d = q[j];
+            q[j] = q[i];
+            q[i] = d;
         }
-        return q[--count];
+        return q[count];
     }
 
     // return a random item (but do not remove it)
@@ -125,6 +123,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         final Iterator<Integer> it = rq.iterator();
         while (it.hasNext())
             StdOut.println(it.next());
+
+        final int n = 5;
+        final RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
+        for (int i = 0; i < n; i++)
+            queue.enqueue(i);
+        for (final int a : queue) {
+            for (final int b : queue)
+                StdOut.print(a + "-" + b + " ");
+            StdOut.println();
+        }
     }
 
 }
