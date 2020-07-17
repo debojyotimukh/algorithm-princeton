@@ -26,7 +26,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void swap(Item a, Item b) {
-        Item d = a;
+        final Item d = a;
         a = b;
         b = d;
     }
@@ -44,7 +44,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // add the item
-    public void enqueue(Item item) {
+    public void enqueue(final Item item) {
         if (item == null)
             throw new IllegalArgumentException();
         if (count == sz)
@@ -56,8 +56,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue() {
         if (isEmpty())
             throw new NoSuchElementException();
+
+        // Fisher-Yates shuffle
         for (int i = count; i > 0; i--) {
-            int j = StdRandom.uniform(0, i);
+            final int j = StdRandom.uniform(0, i);
             swap(q[j], q[i]);
         }
         return q[--count];
@@ -67,7 +69,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item sample() {
         if (isEmpty())
             throw new NoSuchElementException();
-        Item d = q[StdRandom.uniform(count)];
+        final Item d = q[StdRandom.uniform(count)];
         return d;
     }
 
@@ -80,7 +82,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         int i = 0;
         int count = 0;
 
-        ArrayIterator(int count) {
+        ArrayIterator(final int count) {
             this.count = count;
         }
 
@@ -91,7 +93,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
-            Item d = q[i++];
+            final Item d = q[i++];
             if (d == null)
                 throw new NoSuchElementException();
             return d;
@@ -104,8 +106,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // unit testing (required)
-    public static void main(String[] args) {
-        RandomizedQueue<Integer> rq = new RandomizedQueue<>();
+    public static void main(final String[] args) {
+        final RandomizedQueue<Integer> rq = new RandomizedQueue<>();
 
         rq.enqueue(5);
         rq.enqueue(8);
@@ -120,7 +122,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         StdOut.println("show");
         rq.dequeue();
         rq.enqueue(112);
-        Iterator<Integer> it = rq.iterator();
+        final Iterator<Integer> it = rq.iterator();
         while (it.hasNext())
             StdOut.println(it.next());
     }

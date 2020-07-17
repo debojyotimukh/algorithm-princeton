@@ -1,4 +1,3 @@
-import java.lang.Object;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -98,7 +97,7 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeFirst() {
         if (isEmpty())
             throw new NoSuchElementException();
-        Item d = dq[front];
+        final Item d = dq[front];
         if (front == rear) {
             front = -1;
             rear = 0;
@@ -116,7 +115,7 @@ public class Deque<Item> implements Iterable<Item> {
         // TODO: removing one more element
         if (isEmpty())
             throw new NoSuchElementException();
-        Item d = dq[rear];
+        final Item d = dq[rear];
         if (front == rear) {
             front = -1;
             rear = 0;
@@ -150,7 +149,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
-            Item d = dq[f % dq.length];
+            final Item d = dq[f % dq.length];
             if (d == null)
                 throw new NoSuchElementException();
             ++f;
