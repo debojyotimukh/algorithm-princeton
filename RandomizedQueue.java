@@ -60,8 +60,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (count < sz / 2 - 1)
             resize(q.length / 2);
         --count;
-
-        swapElements(count, StdRandom.uniform(0, count+1));
+        // swap last element with any random element
+        swapElements(count, StdRandom.uniform(0, count + 1));
+        // return last element
         final Item d = q[count];
         q[count] = null;
         return d;

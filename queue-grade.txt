@@ -9,20 +9,20 @@ Spotbugs:     PASSED
 PMD:          PASSED
 Checkstyle:   PASSED
 
-Correctness:  39/45 tests passed
-Memory:       122/134 tests passed
-Timing:       183/193 tests passed
+Correctness:  37/45 tests passed
+Memory:       123/134 tests passed
+Timing:       182/193 tests passed
 
-Aggregate score: 85.07%
+Aggregate score: 82.37%
 [Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
 
 ASSESSMENT DETAILS
 
 The following files were submitted:
 ----------------------------------
-4.8K Jul 17 17:30 Deque.java
- 449 Jul 17 17:30 Permutation.java
-3.8K Jul 17 17:30 RandomizedQueue.java
+4.8K Jul 18 08:17 Deque.java
+ 669 Jul 18 08:17 Permutation.java
+3.8K Jul 18 08:17 RandomizedQueue.java
 
 
 ********************************************************************************
@@ -174,18 +174,27 @@ Test 4: check random calls to addLast(), removeLast(), and isEmpty()
 Test 5: check random calls to addLast(), removeFirst(), and isEmpty()
   *    5 random calls (0.0, 0.8, 0.1, 0.0, 0.1, 0.0)
   *   50 random calls (0.0, 0.8, 0.1, 0.0, 0.1, 0.0)
-    - failed on operation 13 of 50
+    - failed on operation 7 of 50
 
-    java.lang.ArrayIndexOutOfBoundsException: Index 8 out of bounds for length 8
+    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
 
     Deque.addLast(Deque.java:91)
     TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
     TestDeque.test5(TestDeque.java:592)
     TestDeque.main(TestDeque.java:962)
 
+    - sequence of operations was:
+         Deque<Integer> deque = new Deque<Integer>()
+         deque.isEmpty()         ==> true
+         deque.addLast(2)
+         deque.addLast(3)
+         deque.addLast(4)
+         deque.removeFirst()     ==> 2
+         deque.addLast(6)
+         deque.addLast(7)
 
   *  500 random calls (0.0, 0.8, 0.1, 0.0, 0.1, 0.0)
-    - failed on operation 37 of 500
+    - failed on operation 41 of 500
 
     java.lang.ArrayIndexOutOfBoundsException: Index 32 out of bounds for length 32
 
@@ -196,9 +205,9 @@ Test 5: check random calls to addLast(), removeFirst(), and isEmpty()
 
 
   * 1000 random calls (0.0, 0.8, 0.1, 0.0, 0.1, 0.0)
-    - failed on operation 19 of 1000
+    - failed on operation 13 of 1000
 
-    java.lang.ArrayIndexOutOfBoundsException: Index 16 out of bounds for length 16
+    java.lang.ArrayIndexOutOfBoundsException: Index 8 out of bounds for length 8
 
     Deque.addLast(Deque.java:91)
     TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
@@ -210,31 +219,53 @@ Test 5: check random calls to addLast(), removeFirst(), and isEmpty()
   *   50 random calls (0.0, 0.1, 0.8, 0.0, 0.1, 0.0)
   *  500 random calls (0.0, 0.1, 0.8, 0.0, 0.1, 0.0)
   * 1000 random calls (0.0, 0.1, 0.8, 0.0, 0.1, 0.0)
-    - failed on operation 187 of 1000
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
-
-    Deque.addLast(Deque.java:91)
-    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
-    TestDeque.test5(TestDeque.java:598)
-    TestDeque.main(TestDeque.java:962)
-
-
 ==> FAILED
 
 Test 6: check random calls to addFirst(), addLast(), removeFirst(),
         removeLast(), isEmpty(), and size()
   *    5 random calls (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
   *   50 random calls (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
+    - failed on operation 10 of 50
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
+
+    Deque.addLast(Deque.java:91)
+    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
+    TestDeque.test6(TestDeque.java:610)
+    TestDeque.main(TestDeque.java:965)
+
+    - sequence of operations was:
+         Deque<Integer> deque = new Deque<Integer>()
+         deque.addFirst(1)
+         deque.isEmpty()         ==> false
+         deque.addLast(3)
+         deque.size()            ==> 2
+         deque.size()            ==> 2
+         deque.isEmpty()         ==> false
+         deque.addLast(7)
+         deque.removeFirst()     ==> 1
+         deque.addLast(9)
+         deque.addLast(10)
+
   *  500 random calls (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
   * 1000 random calls (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
   *    5 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
   *   50 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
   *  500 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
-  * 1000 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
-    - failed on operation 443 of 1000
+    - failed on operation 176 of 500
 
     java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
+
+    Deque.addLast(Deque.java:91)
+    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
+    TestDeque.test6(TestDeque.java:615)
+    TestDeque.main(TestDeque.java:965)
+
+
+  * 1000 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
+    - failed on operation 621 of 1000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 8 out of bounds for length 8
 
     Deque.addLast(Deque.java:91)
     TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
@@ -275,7 +306,7 @@ Test 10: check iterator() after each of m intermixed calls to
     - iterator() yields wrong entries after applying operation 1
     - sequence of operations was:
          Deque deque<Integer> = new Deque<Integer>()
-         deque.addFirst(1)
+         deque.addLast(1)
 
   * m = 100
     - number of student   entries = 0
@@ -489,35 +520,35 @@ Test 1a: check formatting for sample inputs from assignment specification
   % java Permutation 3 < distinct.txt
   E
   F
-  B
+  I
 
   % java Permutation 3 < distinct.txt
   H
-  B
-  C
+  D
+  I
 
   % java Permutation 8 < duplicates.txt
-  CC
-  BB
   AA
-  BB
-  BB
-  BB
-  BB
   CC
+  CC
+  BB
+  BB
+  BB
+  BB
+  BB
 
 ==> passed
 
 Test 1b: check formatting for other inputs
   % java Permutation 8 < mediumTale.txt
   of
-  of
   the
+  age
   of
-  worst
+  times
+  foolishness
+  the
   was
-  it
-  it
 
   % java Permutation 0 < distinct.txt
   [no output]
@@ -565,22 +596,181 @@ Test 4: check main() when k = 0
 Test 5a: check that permutations are uniformly random
          (for inputs with no duplicate strings)
   * filename = permutation4.txt, k = 1
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+                A         0     250.0          0.00
+                B         0     250.0          0.00
+                C         0     250.0          0.00
+                D      1000     250.0       2772.59
+        -------------------------------------------
+                       1000    1000.0       2772.59
+    
+    G-statistic = 2772.59 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
   * filename = permutation4.txt, k = 2
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+              A B         0      83.3          0.00
+              A C         0      83.3          0.00
+              A D       114      83.3         71.44
+              B A         0      83.3          0.00
+              B C         0      83.3          0.00
+              B D       127      83.3        107.02
+              C A         0      83.3          0.00
+              C B         0      83.3          0.00
+              C D       246      83.3        532.58
+              D A       118      83.3         82.09
+              D B       128      83.3        109.87
+              D C       267      83.3        621.79
+        -------------------------------------------
+                       1000    1000.0       1524.79
+    
+    G-statistic = 1524.79 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
   * filename = permutation4.txt, k = 3
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+            A B C         0      41.7          0.00
+            A B D        57      41.7         35.72
+            A C B         0      41.7          0.00
+            A C D        46      41.7          9.10
+            A D B        44      41.7          4.79
+            A D C        59      41.7         41.04
+            B A C         0      41.7          0.00
+            B A D        48      41.7         13.58
+            B C A         0      41.7          0.00
+            B C D        70      41.7         72.63
+            B D A        53      41.7         25.50
+            B D C        53      41.7         25.50
+            C A B         0      41.7          0.00
+            C A D        59      41.7         41.04
+            C B A         0      41.7          0.00
+            C B D        61      41.7         46.50
+            C D A        54      41.7         28.00
+            C D B        56      41.7         33.11
+            D A B        60      41.7         43.76
+            D A C        63      41.7         52.09
+            D B A        45      41.7          6.93
+            D B C        64      41.7         54.94
+            D C A        48      41.7         13.58
+            D C B        60      41.7         43.76
+        -------------------------------------------
+                       1000    1000.0        591.60
+    
+    G-statistic = 591.60 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
   * filename = permutation4.txt, k = 4
   * filename = permutation6.txt, k = 2
-==> passed
+
+==> FAILED
 
 Test 5b: check that permutations are uniformly random
          (for inputs with duplicate strings)
   * filename = permutation5.txt, k = 1
-  * filename = permutation5.txt, k = 2
-  * filename = permutation5.txt, k = 3
-  * filename = duplicates.txt, k = 3
-  * filename = permutation8.txt, k = 2
-==> passed
 
-Total: 9/9 tests passed!
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+                A         0     600.0          0.00
+                B      1000     400.0       1832.58
+        -------------------------------------------
+                       1000    1000.0       1832.58
+    
+    G-statistic = 1832.58 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
+  * filename = permutation5.txt, k = 2
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+              A A         0     300.0          0.00
+              A B       427     300.0        301.46
+              B A       451     300.0        367.73
+              B B       122     100.0         48.52
+        -------------------------------------------
+                       1000    1000.0        717.71
+    
+    G-statistic = 717.71 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
+  * filename = permutation5.txt, k = 3
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+            A A A         0     100.0          0.00
+            A A B       181     200.0        -36.13
+            A B A       184     200.0        -30.68
+            A B B       130     100.0         68.21
+            B A A       179     200.0        -39.71
+            B A B       172     100.0        186.56
+            B B A       154     100.0        132.99
+        -------------------------------------------
+                       1000    1000.0        281.23
+    
+    G-statistic = 281.23 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
+  * filename = duplicates.txt, k = 3
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+         AA BB BB         0      59.5          0.00
+         AA BB CC         7      29.8        -20.26
+         AA CC BB        11      29.8        -21.90
+         AA CC CC        19       6.0         44.10
+         BB AA BB         0      59.5          0.00
+         BB AA CC        16      29.8        -19.86
+         BB BB AA         0      59.5          0.00
+         BB BB BB         0     178.6          0.00
+         BB BB CC       100     119.0        -34.87
+         BB CC AA         6      29.8        -19.22
+         BB CC BB        84     119.0        -58.58
+         BB CC CC       198      29.8        750.43
+         CC AA BB         9      29.8        -21.53
+         CC AA CC        20       6.0         48.48
+         CC BB AA        14      29.8        -21.12
+         CC BB BB        77     119.0        -67.10
+         CC BB CC       211      29.8        826.54
+         CC CC AA        28       6.0         86.71
+         CC CC BB       200      29.8        762.04
+        -------------------------------------------
+                       1000    1000.0       2233.87
+    
+    G-statistic = 2233.87 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
+  * filename = permutation8.txt, k = 2
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+              A B         0      17.9          0.00
+              A C       116      71.4        112.50
+              A D         0      35.7          0.00
+              B A         0      17.9          0.00
+              B C        26      71.4        -52.55
+              B D         0      35.7          0.00
+              C A       124      71.4        136.79
+              C B        21      71.4        -51.42
+              C C       684     214.3       1587.77
+              C D        12     142.9        -59.45
+              D A         0      35.7          0.00
+              D B         0      35.7          0.00
+              D C        17     142.9        -72.37
+              D D         0      35.7          0.00
+        -------------------------------------------
+                       1000    1000.0       1601.27
+    
+    G-statistic = 1601.27 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
+==> FAILED
+
+Total: 7/9 tests passed!
 
 
 ================================================================
@@ -629,10 +819,10 @@ Test 4: Time main() with k = 5, for inputs containing n random strings
 => passed        8000     0.00
 => passed       16000     0.01
 => passed       32000     0.01
-=> passed       64000     0.03
+=> passed       64000     0.02
 => passed      128000     0.04
 => passed      256000     0.08
-=> passed      512000     0.17
+=> passed      512000     0.15
 ==> 10/10 tests passed
 
 
@@ -649,7 +839,7 @@ Test 5: Time main() with k = 1000, for inputs containing n random strings
 => passed       64000     0.02
 => passed      128000     0.04
 => passed      256000     0.08
-=> passed      512000     0.20
+=> passed      512000     0.15
 ==> 10/10 tests passed
 
 
@@ -692,23 +882,13 @@ Test 2: check that the maximum size of any Deque or RandomizedQueue object
 Test 3 (bonus): check that maximum size of any or Deque or RandomizedQueue object
                 created is equal to k
   * filename = tale.txt, n = 138653, k = 5
-    - max size of RandomizedQueue object = 138653
-
   * filename = tale.txt, n = 138653, k = 50
-    - max size of RandomizedQueue object = 138653
-
   * filename = tale.txt, n = 138653, k = 500
-    - max size of RandomizedQueue object = 138653
-
   * filename = tale.txt, n = 138653, k = 5000
-    - max size of RandomizedQueue object = 138653
-
   * filename = tale.txt, n = 138653, k = 50000
-    - max size of RandomizedQueue object = 138653
+==> passed
 
-==> FAILED
-
-Total: 2/2 tests passed!
+Total: 3/2 tests passed!
 
 
 ================================================================
@@ -844,54 +1024,47 @@ Test 6b: Perform random operations, checking for loitering after
          removeFirst(), and removeLast() are (p1, p2, p3, p4),
          respectively.
   * 100 random operations (0.8, 0.0, 0.2, 0.0)
-    - loitering detected after operation 9 of 100
-    - sequence of operations was:
-         deque.addFirst("WWTVIADHWA")
-         deque.addFirst("WYGDBQNASF")
-         deque.removeFirst()     ==> WYGDBQNASF
-         deque.addFirst("GYXBOUTMOA")
-         deque.addFirst("UWVCYFLNOM")
-         deque.addFirst("QHBVHPHNOG")
-         deque.addFirst("PMDQWVXYWL")
-         deque.removeFirst()     ==> PMDQWVXYWL
-         deque.removeFirst()     ==> QHBVHPHNOG
-    - loitered object(s):
-      QHBVHPHNOG
+    - loitering detected after operation 13 of 100
 
   * 100 random operations (0.8, 0.0, 0.0, 0.2)
   * 100 random operations (0.0, 0.8, 0.2, 0.0)
 
-    java.lang.ArrayIndexOutOfBoundsException: Index 8 out of bounds for length 8
+    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
 
     Deque.addLast(Deque.java:91)
     MemoryOfDeque.loiter(MemoryOfDeque.java:460)
     MemoryOfDeque.test6b(MemoryOfDeque.java:546)
     MemoryOfDeque.main(MemoryOfDeque.java:661)
 
+    - sequence of operations was:
+         deque.addLast("PWMELDLRDZ")
+         deque.addLast("GRUJCCRTUS")
+         deque.addLast("YWDAGJLCKL")
+         deque.addLast("JEVQIKRDUO")
+         deque.removeFirst()     ==> PWMELDLRDZ
+         deque.addLast("UUBDDGWRTU")
 
   * 100 random operations (0.0, 0.8, 0.0, 0.2)
   * 100 random operations (0.4, 0.4, 0.1, 0.1)
   * 100 random operations (0.2, 0.2, 0.3, 0.3)
-    - loitering detected after operation 24 of 100
-
 ==> FAILED
 
 Test 7: worst-case constant memory allocated or de-allocated
         per deque operation?
   * 128 random operations
-    - failed on trial 31 of 128
+    - failed on trial 18 of 128
     - when current size of Deque was 16 objects;
-    - the call to addLast() caused a change in memory of 128 bytes
+    - the call to addFirst() caused a change in memory of 128 bytes
     - any change of more than 96 bytes fails the test
 
   * 256 random operations
-    - failed on trial 30 of 256
+    - failed on trial 29 of 256
     - when current size of Deque was 16 objects;
     - the call to addFirst() caused a change in memory of 128 bytes
     - any change of more than 96 bytes fails the test
 
   * 512 random operations
-    - failed on trial 28 of 512
+    - failed on trial 29 of 512
     - when current size of Deque was 16 objects;
     - the call to addFirst() caused a change in memory of 128 bytes
     - any change of more than 96 bytes fails the test
@@ -1166,7 +1339,7 @@ Test 3a-3k: make n calls to addFirst() followed by n calls to removeLast()
 => passed      128000     0.00
 => passed      256000     0.01
 => passed      512000     0.01
-=> passed     1024000     0.03
+=> passed     1024000     0.02
 ==> 11/11 tests passed
 
 
@@ -1202,8 +1375,8 @@ Test 5a-5g: make n random calls to addFirst(), removeFirst(), isEmpty(), and siz
 => passed      128000     0.01
 => passed      256000     0.01
 => passed      512000     0.02
-=> passed     1024000     0.05
-=> passed     2048000     0.10
+=> passed     1024000     0.04
+=> passed     2048000     0.09
 ==> 12/12 tests passed
 
 
@@ -1222,7 +1395,7 @@ Test 6a-6g: make n random calls to addLast(), removeLast(), isEmpty(), and size(
 => passed      128000     0.01
 => passed      256000     0.01
 => passed      512000     0.02
-=> passed     1024000     0.05
+=> passed     1024000     0.04
 => passed     2048000     0.10
 ==> 12/12 tests passed
 
@@ -1233,19 +1406,18 @@ Test 7a-7g: make n random calls to addFirst(), addLast(), removeFirst(), removeL
                     n  seconds
 ------------------------------
 => passed        1024     0.00
-=> passed        2048     0.00
 
-    java.lang.ArrayIndexOutOfBoundsException: Index 16 out of bounds for length 16
+    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
 
     Deque.addLast(Deque.java:91)
     TimeDeque.timeRandomOperations(TimeDeque.java:89)
-    TimeDeque.timeRandomOperations(TimeDeque.java:191)
+    TimeDeque.timeRandomOperations(TimeDeque.java:192)
     TimeDeque.test7(TimeDeque.java:277)
     TimeDeque.main(TimeDeque.java:384)
 
-=> FAILED        4096   Test did not complete due to an exception.
+=> FAILED        2048   Test did not complete due to an exception.
 
-==> 2/12 tests passed
+==> 1/12 tests passed
 
 
 Test 8a-8g: make n calls to addFirst(); iterate over the n items by calling
@@ -1260,11 +1432,11 @@ Test 8a-8g: make n calls to addFirst(); iterate over the n items by calling
 => passed       16384     0.00
 => passed       32768     0.00
 => passed       65536     0.00
-=> passed      128000     0.00
+=> passed      128000     0.01
 => passed      256000     0.01
 => passed      512000     0.02
-=> passed     1024000     0.03
-=> passed     2048000     0.07
+=> passed     1024000     0.04
+=> passed     2048000     0.08
 ==> 12/12 tests passed
 
 
@@ -1283,10 +1455,10 @@ Test 9a-9k: make n calls to addFirst()/addLast(); interleave n calls each to
 => passed      128001     0.01
 => passed      256001     0.02
 => passed      512001     0.04
-=> passed     1024001     0.08
+=> passed     1024001     0.07
 ==> 11/11 tests passed
 
-Total: 93/103 tests passed!
+Total: 92/103 tests passed!
 
 
 ================================================================
@@ -1328,7 +1500,7 @@ Test 4a-k: make n calls to enqueue() followed by n calls to dequeue()
 => passed        8192     0.00
 => passed       16384     0.00
 => passed       32768     0.00
-=> passed       65536     0.01
+=> passed       65536     0.00
 => passed      128000     0.01
 => passed      256000     0.01
 => passed      512000     0.03
@@ -1351,8 +1523,8 @@ Test 5a-k: make n calls to enqueue() followed by n random calls to
 => passed       65536     0.01
 => passed      128000     0.01
 => passed      256000     0.02
-=> passed      512000     0.05
-=> passed     1024000     0.11
+=> passed      512000     0.04
+=> passed     1024000     0.09
 ==> 11/11 tests passed
 
 
@@ -1391,8 +1563,8 @@ Test 7a-k: make n calls to enqueue() followed by n random calls to
 => passed       65536     0.00
 => passed      128000     0.01
 => passed      256000     0.02
-=> passed      512000     0.05
-=> passed     1024000     0.15
+=> passed      512000     0.04
+=> passed     1024000     0.10
 ==> 11/11 tests passed
 
 
@@ -1410,8 +1582,8 @@ Test 8a-k: make n calls to enqueue() followed by n calls each to
 => passed       65536     0.00
 => passed      128000     0.01
 => passed      256000     0.01
-=> passed      512000     0.03
-=> passed     1024000     0.06
+=> passed      512000     0.02
+=> passed     1024000     0.05
 ==> 11/11 tests passed
 
 
@@ -1426,10 +1598,10 @@ Test 9a-i: make 100 calls to enqueue; 99 calls to dequeue;
 => passed        4096     0.00
 => passed        8192     0.00
 => passed       16384     0.00
-=> passed       32768     0.01
+=> passed       32768     0.00
 => passed       65536     0.01
 => passed      128000     0.02
-=> passed      256000     0.05
+=> passed      256000     0.04
 ==> 9/9 tests passed
 
 
