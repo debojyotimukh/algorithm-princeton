@@ -3,7 +3,7 @@ Excercises for princeton algorithm course from coursera
 # Algorithm-I
 ## WK-I: Dynamic connectivity problem
 ----
-### __Assignment:__ Finding percolation threshold: *Refer to [specs](./doc/1-Percolation-Assignment.pdf)*
+### Assignment: Finding percolation threshold: *Refer to [specs](./doc/1-Percolation-Assignment.pdf)*
 
 ### Question 1 Social network connectivity. 
 Given a social network containing n members and a log file containing m timestamps at which times pairs of members formed friendships, design an algorithm to determine
@@ -59,7 +59,7 @@ Hints:
 
 ## WK-II: Stacks-Queue and Elementry sorts
 ----
-### __Assignment:__ Deque and Randomized queue: *Refer to [Specs](./doc/2-Queues-Assignment.pdf)*
+### Assignment: Deque and Randomized queue: *Refer to [specs](./doc/2-Queues-Assignment.pdf)*
 
 ### Question 1 Queue with two stacks. 
 Implement a queue with two stacks so that each queue operations takes a constant amortized number of stack operations.
@@ -99,7 +99,7 @@ Hint: 3-way partitioning.
 
 ## WK-III 
 ----
-### __Assignment:__ Collinear points *Refer to [specs](./doc/3-Collinear-Points-Assignment.pdf)* 
+### Assignment: Collinear points *Refer to [specs](./doc/3-Collinear-Points-Assignment.pdf)* 
 
 
 
