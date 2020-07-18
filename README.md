@@ -3,12 +3,12 @@ Excercises for princeton algorithm course from coursera
 # Algorithm-I
 ## WK-I: Dynamic connectivity problem
 ----
-### Finding percolation threshold: *Refer to [](./doc/1-Percolation-Assignment.pdf)*
+### Finding percolation threshold: *Refer to [specs](./doc/1-Percolation-Assignment.pdf)*
 
 ### Question 1 Social network connectivity. 
-Given a social network containing nn members and a log file containing mm timestamps at which times pairs of members formed friendships, design an algorithm to determine
+Given a social network containing n members and a log file containing m timestamps at which times pairs of members formed friendships, design an algorithm to determine
 the earliest time at which all members are connected (i.e., every member is a friend of a friend of a friend ... of a friend). Assume that the log file is sorted by timestamp 
-and that friendship is an equivalence relation. The running time of your algorithm should be m log n or better and use extra space proportional to n.
+and that friendship is an equivalence relation. The running time of your algorithm should be `m log n` or better and use extra space proportional to n.
 
 ### Question 2 Union-find with specific canonical element. 
 Add a method `find()` to the union-find data type so that `find(i)` returns the largest element in the connected component containing i. The operations, `union()`,
@@ -59,7 +59,7 @@ Hints:
 
 ## WK-II: Stacks-Queue and Elementry sorts
 ----
-### Deque and Randomized queue: *Refer to [](./doc/2-Queues-Assignment.pdf)
+### Deque and Randomized queue: *Refer to [Specs](./doc/2-Queues-Assignment.pdf)*
 
 ### Question 1 Queue with two stacks. 
 Implement a queue with two stacks so that each queue operations takes a constant amortized number of stack operations.
@@ -99,7 +99,7 @@ Hint: 3-way partitioning.
 
 ## WK-III 
 ----
-### Collinear points *Refer to [](./doc/3-Collinear-Points-Assignment.pdf)* 
+### Collinear points *Refer to [specs](./doc/3-Collinear-Points-Assignment.pdf)* 
 
 
 
