@@ -8,7 +8,7 @@ public class Permutation {
         if (k == 0)
             return;
         final RandomizedQueue<String> rq = new RandomizedQueue<>();
-        
+
         // Implement Algorithm-R for reservoir sampling
         int i = 1;
         while (!StdIn.isEmpty()) {
@@ -18,7 +18,7 @@ public class Permutation {
                 rq.dequeue();
                 rq.enqueue(StdIn.readString());
             } else
-                StdIn.readString(); // dump
+                StdIn.readString(); // discard
             i++;
         }
 
