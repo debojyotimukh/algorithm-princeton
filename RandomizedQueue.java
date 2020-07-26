@@ -51,7 +51,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (count == sz)
             resize(q.length * 2);
         q[count++] = item;
-        swapElements(count - 1, StdRandom.uniform(0, count));
     }
 
     // remove and return a random item
