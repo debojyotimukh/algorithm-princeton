@@ -2,27 +2,27 @@ See the Assessment Guide for information on how to interpret this report.
 
 ASSESSMENT SUMMARY
 
-Compilation:  FAILED (0 errors, 4 warnings)
+Compilation:  PASSED (0 errors, 2 warnings)
 API:          PASSED
 
 Spotbugs:     PASSED
 PMD:          PASSED
-Checkstyle:   FAILED (0 errors, 1 warning)
+Checkstyle:   FAILED (0 errors, 3 warnings)
 
-Correctness:  39/45 tests passed
-Memory:       123/134 tests passed
-Timing:       189/193 tests passed
+Correctness:  45/45 tests passed
+Memory:       135/134 tests passed
+Timing:       193/193 tests passed
 
-Aggregate score: 85.76%
+Aggregate score: 100.07%
 [Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
 
 ASSESSMENT DETAILS
 
 The following files were submitted:
 ----------------------------------
-4.8K Jul 26 18:30 Deque.java
- 878 Jul 26 18:30 Permutation.java
-3.8K Jul 26 18:30 RandomizedQueue.java
+3.8K Jul 26 19:58 Deque.java
+ 878 Jul 26 19:58 Permutation.java
+3.8K Jul 26 19:58 RandomizedQueue.java
 
 
 ********************************************************************************
@@ -32,21 +32,6 @@ The following files were submitted:
 
 % javac Deque.java
 *-----------------------------------------------------------
-Deque.java:16: warning: [unchecked] unchecked cast
-        dq = (Item[]) new Object[sz];
-                      ^
-  required: Item[]
-  found:    Object[]
-  where Item is a type-variable:
-    Item extends Object declared in class Deque
-Deque.java:25: warning: [unchecked] unchecked cast
-        final Item[] aux = (Item[]) new Object[sz];
-                                    ^
-  required: Item[]
-  found:    Object[]
-  where Item is a type-variable:
-    Item extends Object declared in class Deque
-2 warnings
 
 % javac RandomizedQueue.java
 *-----------------------------------------------------------
@@ -91,6 +76,8 @@ Permutation:
 
 % spotbugs *.class
 *-----------------------------------------------------------
+L D DLS_DEAD_LOCAL_STORE_OF_NULL DLS: Assigns the value null to the local variable 'temp' but never reads the variable.  At Deque.java:[line 85]
+L D DLS_DEAD_LOCAL_STORE_OF_NULL DLS: Assigns the value null to the local variable 'temp' but never reads the variable.  At Deque.java:[line 103]
 
 
 ================================================================
@@ -105,8 +92,10 @@ Permutation:
 
 % checkstyle *.java
 *-----------------------------------------------------------
-[WARN] Deque.java:115: Comment matches to-do format 'TODO:'. [TodoComment]
-Checkstyle ends with 0 errors and 1 warning.
+[WARN] Deque.java:14:9: Declare instance variables after static variables but before constructors and methods. [DeclarationOrder]
+[WARN] Deque.java:15:9: Declare instance variables after static variables but before constructors and methods. [DeclarationOrder]
+[WARN] Deque.java:16:9: Declare instance variables after static variables but before constructors and methods. [DeclarationOrder]
+Checkstyle ends with 0 errors and 3 warnings.
 
 % custom checkstyle checks for Deque.java
 *-----------------------------------------------------------
@@ -176,116 +165,25 @@ Test 4: check random calls to addLast(), removeLast(), and isEmpty()
 Test 5: check random calls to addLast(), removeFirst(), and isEmpty()
   *    5 random calls (0.0, 0.8, 0.1, 0.0, 0.1, 0.0)
   *   50 random calls (0.0, 0.8, 0.1, 0.0, 0.1, 0.0)
-    - failed on operation 39 of 50
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 32 out of bounds for length 32
-
-    Deque.addLast(Deque.java:91)
-    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
-    TestDeque.test5(TestDeque.java:592)
-    TestDeque.main(TestDeque.java:962)
-
-
   *  500 random calls (0.0, 0.8, 0.1, 0.0, 0.1, 0.0)
-    - failed on operation 6 of 500
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
-
-    Deque.addLast(Deque.java:91)
-    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
-    TestDeque.test5(TestDeque.java:593)
-    TestDeque.main(TestDeque.java:962)
-
-    - sequence of operations was:
-         Deque<Integer> deque = new Deque<Integer>()
-         deque.addLast(1)
-         deque.addLast(2)
-         deque.addLast(3)
-         deque.removeFirst()     ==> 1
-         deque.addLast(5)
-         deque.addLast(6)
-
   * 1000 random calls (0.0, 0.8, 0.1, 0.0, 0.1, 0.0)
-    - failed on operation 42 of 1000
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 32 out of bounds for length 32
-
-    Deque.addLast(Deque.java:91)
-    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
-    TestDeque.test5(TestDeque.java:594)
-    TestDeque.main(TestDeque.java:962)
-
-
   *    5 random calls (0.0, 0.1, 0.8, 0.0, 0.1, 0.0)
   *   50 random calls (0.0, 0.1, 0.8, 0.0, 0.1, 0.0)
   *  500 random calls (0.0, 0.1, 0.8, 0.0, 0.1, 0.0)
   * 1000 random calls (0.0, 0.1, 0.8, 0.0, 0.1, 0.0)
-    - failed on operation 486 of 1000
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
-
-    Deque.addLast(Deque.java:91)
-    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
-    TestDeque.test5(TestDeque.java:598)
-    TestDeque.main(TestDeque.java:962)
-
-
-==> FAILED
+==> passed
 
 Test 6: check random calls to addFirst(), addLast(), removeFirst(),
         removeLast(), isEmpty(), and size()
   *    5 random calls (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
   *   50 random calls (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
-    - failed on operation 11 of 50
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
-
-    Deque.addLast(Deque.java:91)
-    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
-    TestDeque.test6(TestDeque.java:610)
-    TestDeque.main(TestDeque.java:965)
-
-    - sequence of operations was:
-         Deque<Integer> deque = new Deque<Integer>()
-         deque.addFirst(1)
-         deque.addLast(2)
-         deque.size()            ==> 2
-         deque.removeLast()      ==> 2
-         deque.isEmpty()         ==> false
-         deque.removeFirst()     ==> 1
-         deque.isEmpty()         ==> true
-         deque.addLast(8)
-         deque.addFirst(9)
-         deque.removeLast()      ==> 8
-         deque.addLast(11)
-
   *  500 random calls (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
   * 1000 random calls (0.3, 0.3, 0.1, 0.1, 0.1, 0.1)
   *    5 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
   *   50 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
   *  500 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
-    - failed on operation 340 of 500
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
-
-    Deque.addLast(Deque.java:91)
-    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
-    TestDeque.test6(TestDeque.java:615)
-    TestDeque.main(TestDeque.java:965)
-
-
   * 1000 random calls (0.1, 0.1, 0.3, 0.3, 0.1, 0.1)
-    - failed on operation 349 of 1000
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
-
-    Deque.addLast(Deque.java:91)
-    TestDeque.checkRandomIntermixedOperations(TestDeque.java:78)
-    TestDeque.test6(TestDeque.java:616)
-    TestDeque.main(TestDeque.java:965)
-
-
-==> FAILED
+==> passed
 
 Test 7: check removeFirst() and removeLast() from an empty deque
   * removeFirst()
@@ -305,60 +203,18 @@ Test 9: check iterator() after n calls to addFirst()
 Test 10: check iterator() after each of m intermixed calls to
          addFirst(), addLast(), removeFirst(), and removeLast()
   * m = 20
-    - number of student   entries = 0
-    - number of reference entries = 1
-    - iterator() yields wrong entries after applying operation 1
-    - sequence of operations was:
-         Deque deque<Integer> = new Deque<Integer>()
-         deque.addLast(1)
-
   * m = 50
-    - number of student   entries = 0
-    - number of reference entries = 1
-    - iterator() yields wrong entries after applying operation 1
-    - sequence of operations was:
-         Deque deque<Integer> = new Deque<Integer>()
-         deque.addFirst(1)
-
   * m = 100
-    - number of student   entries = 0
-    - number of reference entries = 1
-    - iterator() yields wrong entries after applying operation 1
-    - sequence of operations was:
-         Deque deque<Integer> = new Deque<Integer>()
-         deque.addLast(1)
-
   * m = 1000
-    - number of student   entries = 0
-    - number of reference entries = 1
-    - iterator() yields wrong entries after applying operation 1
-    - sequence of operations was:
-         Deque deque<Integer> = new Deque<Integer>()
-         deque.addLast(1)
-
-==> FAILED
+==> passed
 
 Test 11: create two nested iterators to same deque
   * n = 10
-    - inner iterator returned fewer than 10 items
-
   * n = 50
-    - inner iterator returned fewer than 50 items
-
-==> FAILED
+==> passed
 
 Test 12: create two parallel iterators to same deque
-    - failed on call 9 to hasNext()
-    - student   iterator 1 hasNext() = false
-    - student   iterator 2 hasNext() = false
-    - reference iterator   hasNext() = true
-
-    - failed on call 49 to hasNext()
-    - student   iterator 1 hasNext() = false
-    - student   iterator 2 hasNext() = false
-    - reference iterator   hasNext() = true
-
-==> FAILED
+==> passed
 
 Test 13: create an iterator and check calls to next() and hasNext()
   * 10 consecutive calls to hasNext() on a deque of size 10
@@ -377,12 +233,10 @@ Test 16: check that remove() and next() throw the specified exceptions in iterat
 ==> passed
 
 Test 17: call iterator() when the deque is empty
-    - hasNext() returns true
-
-==> FAILED
+==> passed
 
 
-Total: 11/17 tests passed!
+Total: 17/17 tests passed!
 
 
 ================================================================
@@ -530,37 +384,37 @@ Running 9 total tests.
 
 Test 1a: check formatting for sample inputs from assignment specification
   % java Permutation 3 < distinct.txt
-  H
-  G
-  B
+  A
+  I
+  E
 
   % java Permutation 3 < distinct.txt
-  E
-  F
   C
+  D
+  E
 
   % java Permutation 8 < duplicates.txt
-  BB
-  BB
   CC
   BB
   BB
   BB
   AA
+  BB
+  BB
   CC
 
 ==> passed
 
 Test 1b: check formatting for other inputs
   % java Permutation 8 < mediumTale.txt
-  of
-  age
-  it
-  worst
-  wisdom
   was
-  best
-  times
+  it
+  was
+  age
+  of
+  of
+  foolishness
+  it
 
   % java Permutation 0 < distinct.txt
   [no output]
@@ -672,9 +526,9 @@ Test 4: Time main() with k = 5, for inputs containing n random strings
 => passed        8000     0.00
 => passed       16000     0.01
 => passed       32000     0.01
-=> passed       64000     0.03
-=> passed      128000     0.05
-=> passed      256000     0.11
+=> passed       64000     0.02
+=> passed      128000     0.04
+=> passed      256000     0.08
 => passed      512000     0.17
 ==> 10/10 tests passed
 
@@ -690,9 +544,9 @@ Test 5: Time main() with k = 1000, for inputs containing n random strings
 => passed       16000     0.01
 => passed       32000     0.01
 => passed       64000     0.03
-=> passed      128000     0.06
-=> passed      256000     0.11
-=> passed      512000     0.19
+=> passed      128000     0.04
+=> passed      256000     0.08
+=> passed      512000     0.17
 ==> 10/10 tests passed
 
 
@@ -764,18 +618,18 @@ Test 1a-1i: total memory usage after inserting n items,
 
                  n        bytes
 ----------------------------------------------------------
-=> passed       32          320         
-=> passed       64          576         
-=> passed      128         1088         
-=> passed      256         2112         
-=> passed      512         4160         
-=> passed     1024         8256         
-=> passed     2048        16448         
-=> passed     4096        32832         
-=> passed     8192        65600         
+=> passed       32         1576         
+=> passed       64         3112         
+=> passed      128         6184         
+=> passed      256        12328         
+=> passed      512        24616         
+=> passed     1024        49192         
+=> passed     2048        98344         
+=> passed     4096       196648         
+=> passed     8192       393256         
 ==> 9/9 tests passed
 
-Memory: 8.00 n + 64.00   (R^2 = 1.000)
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
 
 
 Test 2a-2i: Total memory usage after inserting n items,
@@ -783,18 +637,18 @@ Test 2a-2i: Total memory usage after inserting n items,
 
                  n        bytes
 ----------------------------------------------------------
-=> passed       33          576         
-=> passed       65         1088         
-=> passed      129         2112         
-=> passed      257         4160         
-=> passed      513         8256         
-=> passed     1025        16448         
-=> passed     2049        32832         
-=> passed     4097        65600         
-=> passed     8193       131136         
+=> passed       33         1624         
+=> passed       65         3160         
+=> passed      129         6232         
+=> passed      257        12376         
+=> passed      513        24664         
+=> passed     1025        49240         
+=> passed     2049        98392         
+=> passed     4097       196696         
+=> passed     8193       393304         
 ==> 9/9 tests passed
 
-Memory: 16.00 n + 48.00   (R^2 = 1.000)
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
 
 
 Test 3a-3i: Total memory usage after inserting 2n-1 items, and then
@@ -802,18 +656,18 @@ Test 3a-3i: Total memory usage after inserting 2n-1 items, and then
 
                  n        bytes
 ----------------------------------------------------------
-=> passed       33         1088         
-=> passed       65         2112         
-=> passed      129         4160         
-=> passed      257         8256         
-=> passed      513        16448         
-=> passed     1025        32832         
-=> passed     2049        65600         
-=> passed     4097       131136         
-=> passed     8193       262208         
+=> passed       33         1624         
+=> passed       65         3160         
+=> passed      129         6232         
+=> passed      257        12376         
+=> passed      513        24664         
+=> passed     1025        49240         
+=> passed     2049        98392         
+=> passed     4097       196696         
+=> passed     8193       393304         
 ==> 9/9 tests passed
 
-Memory: 32.00 n + 32.00   (R^2 = 1.000)
+Memory: 48.00 n + 40.00   (R^2 = 1.000)
 
 
 Test 4a-4e: Total memory usage after inserting n items,
@@ -822,18 +676,18 @@ Test 4a-4e: Total memory usage after inserting n items,
 
                  n        bytes
 ----------------------------------------------------------
-=> FAILED       32          320   (1.3x)
-=> FAILED       64          576   (2.4x)
-=> FAILED      128         1088   (4.5x)
-=> FAILED      256         2112   (8.8x)
-=> FAILED      512         4160  (17.3x)
-=> FAILED     1024         8256  (34.4x)
-=> FAILED     2048        16448  (68.5x)
-=> FAILED     4096        32832 (136.8x)
-=> FAILED     8192        65600 (273.3x)
-==> 0/9 tests passed
+=> passed       32           88         
+=> passed       64           88         
+=> passed      128           88         
+=> passed      256           88         
+=> passed      512           88         
+=> passed     1024           88         
+=> passed     2048           88         
+=> passed     4096           88         
+=> passed     8192           88         
+==> 9/9 tests passed
 
-Memory: 8.00 n + 64.00   (R^2 = 1.000)
+Memory: 88.00   (R^2 = 1.000)
 
 
 Test 5a-5e: Total memory usage of iterator after inserting n items
@@ -860,119 +714,36 @@ Test 6a: Insert n strings; delete them one at a time, checking for
          and addLast() are (p1, p2), respectively. The probabilities of
          removeFirst() and removeLast() are (q1, q2), respectively.
   * 100 random insertions (1.0, 0.0) and 100 random deletions (1.0, 0.0)
-    - loitering observed during 100 of 100 deletions
-    - maximum number of loitered objects at one time = 100
-
   * 100 random insertions (1.0, 0.0) and 100 random deletions (0.0, 1.0)
-    - loitering observed during 100 of 100 deletions
-    - maximum number of loitered objects at one time = 100
-
   * 100 random insertions (0.0, 1.0) and 100 random deletions (1.0, 0.0)
-    - loitering observed during 100 of 100 deletions
-    - maximum number of loitered objects at one time = 100
-
   * 100 random insertions (0.0, 1.0) and 100 random deletions (0.0, 1.0)
-    - loitering observed during 100 of 100 deletions
-    - maximum number of loitered objects at one time = 100
-
   * 100 random insertions (0.5, 0.5) and 100 random deletions (0.5, 0.5)
-    - loitering observed during 100 of 100 deletions
-    - maximum number of loitered objects at one time = 100
-
-==> FAILED
+==> passed
 
 Test 6b: Perform random operations, checking for loitering after
          each operation. The probabilities of addFirst(), addLast(),
          removeFirst(), and removeLast() are (p1, p2, p3, p4),
          respectively.
   * 100 random operations (0.8, 0.0, 0.2, 0.0)
-    - loitering detected after operation 5 of 100
-    - sequence of operations was:
-         deque.addFirst("LXRLDREQLD")
-         deque.addFirst("UTLVLLITDE")
-         deque.addFirst("YMIFYJBPDP")
-         deque.addFirst("ZWNSIOCTZP")
-         deque.removeFirst()     ==> ZWNSIOCTZP
-    - loitered object(s):
-      ZWNSIOCTZP
-
   * 100 random operations (0.8, 0.0, 0.0, 0.2)
-    - loitering detected after operation 2 of 100
-    - sequence of operations was:
-         deque.addFirst("YQUBFEFYZG")
-         deque.removeLast()      ==> YQUBFEFYZG
-    - loitered object(s):
-      YQUBFEFYZG
-
   * 100 random operations (0.0, 0.8, 0.2, 0.0)
-    - loitering detected after operation 2 of 100
-    - sequence of operations was:
-         deque.addLast("NORKWYTMAN")
-         deque.removeFirst()     ==> NORKWYTMAN
-    - loitered object(s):
-      NORKWYTMAN
-
   * 100 random operations (0.0, 0.8, 0.0, 0.2)
-    - loitering detected after operation 6 of 100
-    - sequence of operations was:
-         deque.addLast("KGBDQVSNDV")
-         deque.addLast("QSYNPKLZWE")
-         deque.addLast("IGKCBURCXR")
-         deque.addLast("IXFFWFJAGZ")
-         deque.addLast("OZWQHPMFMM")
-         deque.removeLast()      ==> OZWQHPMFMM
-    - loitered object(s):
-      OZWQHPMFMM
-
   * 100 random operations (0.4, 0.4, 0.1, 0.1)
-    - loitering detected after operation 6 of 100
-    - sequence of operations was:
-         deque.addLast("ERCIZQZIMQ")
-         deque.addFirst("PDSXSNAKTR")
-         deque.addFirst("RLXPNFMQXR")
-         deque.addFirst("IDRSMBXBEH")
-         deque.addFirst("JXDYLYOBTX")
-         deque.removeLast()      ==> ERCIZQZIMQ
-    - loitered object(s):
-      ERCIZQZIMQ
-
   * 100 random operations (0.2, 0.2, 0.3, 0.3)
-    - loitering detected after operation 2 of 100
-    - sequence of operations was:
-         deque.addLast("TEXWSBEVRD")
-         deque.removeLast()      ==> TEXWSBEVRD
-    - loitered object(s):
-      TEXWSBEVRD
-
-==> FAILED
+==> passed
 
 Test 7: worst-case constant memory allocated or de-allocated
         per deque operation?
   * 128 random operations
-    - failed on trial 30 of 128
-    - when current size of Deque was 16 objects;
-    - the call to addLast() caused a change in memory of 128 bytes
-    - any change of more than 96 bytes fails the test
-
   * 256 random operations
-    - failed on trial 17 of 256
-    - when current size of Deque was 16 objects;
-    - the call to addLast() caused a change in memory of 128 bytes
-    - any change of more than 96 bytes fails the test
-
   * 512 random operations
-    - failed on trial 25 of 512
-    - when current size of Deque was 16 objects;
-    - the call to addLast() caused a change in memory of 128 bytes
-    - any change of more than 96 bytes fails the test
-
-==> FAILED
+==> passed
 
 
-Min observed memory for Deque: 8.00 n + 64.00   (R^2 = 1.000)
-Max observed memory for Deque: 32.00 n + 32.00   (R^2 = 1.000)
+Min observed memory for Deque: 48.00 n + 40.00   (R^2 = 1.000)
+Max observed memory for Deque: 48.00 n + 40.00   (R^2 = 1.000)
 
-Total: 36/48 tests passed!
+Total: 48/48 tests passed!
 
 
 ================================================================
@@ -1199,10 +970,10 @@ Test 1a-1k: make n calls to addFirst() followed by n calls to removeFirst()
 => passed       16384     0.00
 => passed       32768     0.00
 => passed       65536     0.00
-=> passed      128000     0.01
-=> passed      256000     0.01
+=> passed      128000     0.00
+=> passed      256000     0.00
 => passed      512000     0.01
-=> passed     1024000     0.04
+=> passed     1024000     0.02
 ==> 11/11 tests passed
 
 
@@ -1217,9 +988,9 @@ Test 2a-2k: make n calls to addLast() followed by n calls to removeLast()
 => passed       32768     0.00
 => passed       65536     0.00
 => passed      128000     0.00
-=> passed      256000     0.01
-=> passed      512000     0.02
-=> passed     1024000     0.03
+=> passed      256000     0.00
+=> passed      512000     0.01
+=> passed     1024000     0.02
 ==> 11/11 tests passed
 
 
@@ -1236,7 +1007,7 @@ Test 3a-3k: make n calls to addFirst() followed by n calls to removeLast()
 => passed      128000     0.00
 => passed      256000     0.01
 => passed      512000     0.02
-=> passed     1024000     0.03
+=> passed     1024000     0.02
 ==> 11/11 tests passed
 
 
@@ -1252,7 +1023,7 @@ Test 4a-4k: make n calls to addLast() followed by n calls to removeFirst()
 => passed       65536     0.00
 => passed      128000     0.00
 => passed      256000     0.01
-=> passed      512000     0.01
+=> passed      512000     0.02
 => passed     1024000     0.03
 ==> 11/11 tests passed
 
@@ -1268,12 +1039,12 @@ Test 5a-5g: make n random calls to addFirst(), removeFirst(), isEmpty(), and siz
 => passed        8192     0.00
 => passed       16384     0.00
 => passed       32768     0.00
-=> passed       65536     0.00
+=> passed       65536     0.01
 => passed      128000     0.01
 => passed      256000     0.01
-=> passed      512000     0.03
-=> passed     1024000     0.05
-=> passed     2048000     0.10
+=> passed      512000     0.02
+=> passed     1024000     0.03
+=> passed     2048000     0.06
 ==> 12/12 tests passed
 
 
@@ -1291,9 +1062,9 @@ Test 6a-6g: make n random calls to addLast(), removeLast(), isEmpty(), and size(
 => passed       65536     0.00
 => passed      128000     0.01
 => passed      256000     0.01
-=> passed      512000     0.03
-=> passed     1024000     0.06
-=> passed     2048000     0.12
+=> passed      512000     0.02
+=> passed     1024000     0.03
+=> passed     2048000     0.07
 ==> 12/12 tests passed
 
 
@@ -1309,19 +1080,12 @@ Test 7a-7g: make n random calls to addFirst(), addLast(), removeFirst(), removeL
 => passed       16384     0.00
 => passed       32768     0.00
 => passed       65536     0.00
-=> passed      128000     0.01
-
-    java.lang.ArrayIndexOutOfBoundsException: Index 4 out of bounds for length 4
-
-    Deque.addLast(Deque.java:91)
-    TimeDeque.timeRandomOperations(TimeDeque.java:89)
-    TimeDeque.timeRandomOperations(TimeDeque.java:192)
-    TimeDeque.test7(TimeDeque.java:277)
-    TimeDeque.main(TimeDeque.java:384)
-
-=> FAILED      256000   Test did not complete due to an exception.
-
-==> 8/12 tests passed
+=> passed      128000     0.00
+=> passed      256000     0.01
+=> passed      512000     0.02
+=> passed     1024000     0.05
+=> passed     2048000     0.08
+==> 12/12 tests passed
 
 
 Test 8a-8g: make n calls to addFirst(); iterate over the n items by calling
@@ -1335,12 +1099,12 @@ Test 8a-8g: make n calls to addFirst(); iterate over the n items by calling
 => passed        8192     0.00
 => passed       16384     0.00
 => passed       32768     0.00
-=> passed       65536     0.01
+=> passed       65536     0.00
 => passed      128000     0.00
-=> passed      256000     0.01
-=> passed      512000     0.02
-=> passed     1024000     0.04
-=> passed     2048000     0.09
+=> passed      256000     0.00
+=> passed      512000     0.01
+=> passed     1024000     0.02
+=> passed     2048000     0.05
 ==> 12/12 tests passed
 
 
@@ -1358,11 +1122,11 @@ Test 9a-9k: make n calls to addFirst()/addLast(); interleave n calls each to
 => passed       65537     0.01
 => passed      128001     0.01
 => passed      256001     0.02
-=> passed      512001     0.09
-=> passed     1024001     0.11
+=> passed      512001     0.12
+=> passed     1024001     0.17
 ==> 11/11 tests passed
 
-Total: 99/103 tests passed!
+Total: 103/103 tests passed!
 
 
 ================================================================
@@ -1404,11 +1168,11 @@ Test 4a-k: make n calls to enqueue() followed by n calls to dequeue()
 => passed        8192     0.00
 => passed       16384     0.00
 => passed       32768     0.00
-=> passed       65536     0.01
+=> passed       65536     0.00
 => passed      128000     0.01
-=> passed      256000     0.02
-=> passed      512000     0.04
-=> passed     1024000     0.10
+=> passed      256000     0.01
+=> passed      512000     0.03
+=> passed     1024000     0.07
 ==> 11/11 tests passed
 
 
@@ -1425,10 +1189,10 @@ Test 5a-k: make n calls to enqueue() followed by n random calls to
 => passed       16384     0.00
 => passed       32768     0.00
 => passed       65536     0.01
-=> passed      128000     0.02
-=> passed      256000     0.03
-=> passed      512000     0.07
-=> passed     1024000     0.15
+=> passed      128000     0.01
+=> passed      256000     0.02
+=> passed      512000     0.05
+=> passed     1024000     0.10
 ==> 11/11 tests passed
 
 
@@ -1447,8 +1211,8 @@ Test 6a-k: make n calls to enqueue() followed by n random calls to
 => passed       65536     0.00
 => passed      128000     0.01
 => passed      256000     0.02
-=> passed      512000     0.06
-=> passed     1024000     0.11
+=> passed      512000     0.05
+=> passed     1024000     0.09
 ==> 11/11 tests passed
 
 
@@ -1464,11 +1228,11 @@ Test 7a-k: make n calls to enqueue() followed by n random calls to
 => passed        8192     0.00
 => passed       16384     0.00
 => passed       32768     0.00
-=> passed       65536     0.01
+=> passed       65536     0.00
 => passed      128000     0.01
-=> passed      256000     0.03
-=> passed      512000     0.10
-=> passed     1024000     0.19
+=> passed      256000     0.02
+=> passed      512000     0.06
+=> passed     1024000     0.21
 ==> 11/11 tests passed
 
 
@@ -1487,7 +1251,7 @@ Test 8a-k: make n calls to enqueue() followed by n calls each to
 => passed      128000     0.01
 => passed      256000     0.01
 => passed      512000     0.03
-=> passed     1024000     0.07
+=> passed     1024000     0.06
 ==> 11/11 tests passed
 
 
@@ -1502,10 +1266,10 @@ Test 9a-i: make 100 calls to enqueue; 99 calls to dequeue;
 => passed        4096     0.00
 => passed        8192     0.00
 => passed       16384     0.00
-=> passed       32768     0.01
-=> passed       65536     0.02
-=> passed      128000     0.04
-=> passed      256000     0.11
+=> passed       32768     0.00
+=> passed       65536     0.01
+=> passed      128000     0.02
+=> passed      256000     0.05
 ==> 9/9 tests passed
 
 

@@ -6,14 +6,15 @@ import edu.princeton.cs.algs4.StdOut;
 public class Deque<Item> implements Iterable<Item> {
     private int count;
 
-    private class Node {
+    private class Node {        
+        Item value;
+        Node prev;
+        Node next;
+        
         Node(final Item value) {
             this.value = value;
         }
 
-        Item value;
-        Node prev;
-        Node next;
     }
 
     private Node front;
