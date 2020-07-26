@@ -4,122 +4,131 @@ import java.util.NoSuchElementException;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Deque<Item> implements Iterable<Item> {
-    private class Node {
-        Item value;
-        Node next;
-        Node prev;
+    private int count;
 
+    private class Node {
+        Node(final Item value) {
+            this.value = value;
+        }
+
+        Item value;
+        Node prev;
+        Node next;
     }
 
     private Node front;
     private Node rear;
-    private int count;
 
-    Deque() {
-        front = null;
-        rear = front;
+    // construct an empty deque
+    public Deque() {
         count = 0;
+        front = null;
+        rear = null;
     }
 
+    // is the deque empty?
     public boolean isEmpty() {
         return count == 0;
     }
 
+    // return the number of items on the deque
     public int size() {
         return count;
     }
 
+    // add the item to the front
     public void addFirst(final Item item) {
         if (item == null)
             throw new IllegalArgumentException();
-        final Node current = new Node();
-        current.value = item;
-        current.prev = null;
-        if (count == 1)
-            current.next = null;
-        else
-            current.next = front;
-        front = current;
-        if (count == 1)
+
+        final Node newnode = new Node(item);
+        if (front == null) {
+            front = newnode;
             rear = front;
+        } else {
+            newnode.next = front;
+            front.prev = newnode;
+            front = newnode;
+        }
         count++;
     }
 
+    // add the item to the back
     public void addLast(final Item item) {
         if (item == null)
             throw new IllegalArgumentException();
-        final Node current = new Node();
-        current.value = item;
-        if (count == 1)
-            current.prev = null;
-        else
-            current.prev = rear;
-        current.next = null;
-        rear = current;
-        if (count == 1)
+        final Node newnode = new Node(item);
+        if (rear == null) {
+            rear = newnode;
             front = rear;
+        } else {
+            newnode.prev = rear;
+            rear.next = newnode;
+            rear = newnode;
+        }
         count++;
     }
 
+    // remove and return the item from the front
     public Item removeFirst() {
-        if (isEmpty())
+        if (count == 0)
             throw new NoSuchElementException();
-        final Item temp = front.value;
-        if (count == 1) {
-            front = null;
-            rear = front;
-            count--;
-            return temp;
-        }
-        final Node current = front.next;
-        current.prev = null;
-        front = current;
-        count--;
 
-        return temp;
-    }
-
-    public Item removeLast() {
-        if (isEmpty())
-            throw new NoSuchElementException();
-        final Item temp = rear.value;
-        if (count == 1) {
+        Node temp = front;
+        front = front.next;
+        if (front == null)
             rear = null;
-            front = rear;
-            count--;
-            return temp;
-        }
-        final Node current = rear.prev;
-        current.next = null;
-        rear = current;
-        count--;
+        else
+            front.prev = null;
 
-        return temp;
+        final Item d = temp.value;
+        temp = null;
+        count--;
+        return d;
     }
 
-    @Override
+    // remove and return the item from the back
+    public Item removeLast() {
+        if (count == 0)
+            throw new NoSuchElementException();
+
+        Node temp = rear;
+        rear = rear.prev;
+        if (rear == null)
+            front = null;
+        else
+            rear.next = null;
+
+        final Item d = temp.value;
+        temp = null;
+        count--;
+        return d;
+    }
+
+    // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
         return new LinkedListIterator(front);
     }
 
     private class LinkedListIterator implements Iterator<Item> {
-        Node current;
+        Node currNode;
 
-        LinkedListIterator(final Node first) {
-            current = first;
+        public LinkedListIterator(final Node firsNode) {
+            currNode = firsNode;
         }
 
         @Override
         public boolean hasNext() {
-            return current.next != null;
+            return currNode != null;
         }
 
         @Override
         public Item next() {
-            if (current.next == null)
+            if (currNode == null)
                 throw new NoSuchElementException();
-            current = current.next;
-            return current.value;
+            final Item currValue = currNode.value;
+            currNode = currNode.next;
+            return currValue;
         }
 
         @Override
@@ -129,42 +138,22 @@ public class Deque<Item> implements Iterable<Item> {
 
     }
 
+    // unit testing (required)
     public static void main(final String[] args) {
-        final Deque<Integer> q = new Deque<>();
+        Deque<Integer> dq = new Deque<>();
+        dq.addFirst(12);
+        dq.addLast(13);
+        dq.addFirst(11);
+        dq.addLast(14);
+        dq.addFirst(10);
+        dq.addLast(15);
 
-        q.addFirst(12);
-        //q.removeLast();
-        q.addFirst(11);
-        //q.removeFirst();
+        dq.removeFirst();
+        dq.removeLast();
 
-        q.addFirst(8);
-        q.addLast(45);
-        q.addLast(5);
-        q.addFirst(8);
-        q.addFirst(1);
-        q.addLast(2);
-        q.addFirst(3);
-        q.addFirst(4);
-        q.addLast(6);
-        q.addFirst(7);
-        q.addLast(9);
-
-        Iterator<Integer> it = q.iterator();
+        Iterator<Integer> it = dq.iterator();
         while (it.hasNext())
             StdOut.println(it.next());
-
-        StdOut.println("After removing");
-
-        /*q.removeFirst();
-        q.removeLast();
-        q.removeLast();
-        q.removeFirst();
-        q.removeLast();*/
-
-        it = q.iterator();
-        while (it.hasNext())
-            StdOut.println(it.next());
-
     }
 
 }
