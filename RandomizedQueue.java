@@ -51,6 +51,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (count == sz)
             resize(q.length * 2);
         q[count++] = item;
+        swapElements(count - 1, StdRandom.uniform(0, count));
     }
 
     // remove and return a random item
@@ -121,7 +122,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         rq.enqueue(65);
         rq.enqueue(78);
         rq.enqueue(2);
-        StdOut.println("show");
+        StdOut.println("show sample");
         StdOut.println(rq.sample());
         rq.dequeue();
         rq.dequeue();
